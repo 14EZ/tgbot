@@ -1,7 +1,7 @@
 const TelegramBot = require('node-telegram-bot-api');
 const token = '5592704439:AAH3_1V8HHjLljPnpbRP1iIfcBFqQZNTzd8';
 const {keyboard1, keyboard2, keyboard3, keyboard4} = require('./keyboards')
-const {KeyboardKeys, District2905Keys, Vor2905Adress, Kur2905Adress, Sol2905Adress, Kur2906Adress, Lan2906Adress, Kur2907Adress, Vor2907Adress, Vor2908Adress, Rod2907Adress, Rod2908Adress, Rod2910Adress, Some2907Adress, Some2910Adress, Nov2907Adress, Nov2911Adress, Zah2907Adress, Sol2908Adress, Sol2909Adress, Novkur2911Adress, Novkur2910Adress, Uro2911Adress, Novkur2912Adress, Some2912Adress, Mash2913Adress, Novkur2913Adress, Some2913Adress } = require('./constants')
+const {KeyboardKeys, District2905Keys, Vor2905Adress, Kur2905Adress, Sol2905Adress, Kur2906Adress, Lan2906Adress, Kur2907Adress, Vor2907Adress, Vor2908Adress, Rod2907Adress, Rod2908Adress, Rod2910Adress, Some2907Adress, Some2910Adress, Nov2907Adress, Nov2911Adress, Zah2907Adress, Sol2908Adress, Sol2909Adress, Novkur2911Adress, Novkur2910Adress, Uro2911Adress, Novkur2912Adress, Some2912Adress, Mash2913Adress, Novkur2913Adress, Some2913Adress, Sovet, Candidates } = require('./constants')
 
 const bot = new TelegramBot(token, {polling: true});
 
@@ -57,6 +57,13 @@ bot.on('callback_query', (query) => {
       bot.sendMessage(chatId, text);
       flag = query.data;
     }
+    if (Sovet.includes(query.data)) { 
+      const img = Candidates[query.data].img;
+      bot.sendPhoto(chatId, img).then(res => {
+        bot.sendMessage(chatId, Candidates[query.data].text);
+        // setTimeout(() => bot.sendMessage(chatId, Candidates[query.data].text1), 500)
+      })
+    }
   });
  
 
@@ -65,7 +72,7 @@ bot.on('callback_query', (query) => {
     const chatId = msg.chat.id;
     const userText = msg.text;
     let text = ''
-    console.log(msg);
+
     if (flag === 'vor') {
       if (Vor2905Adress.includes(userText))
         text = 'Ваш участок для голосования УИК №2905.  \n \n 🗓Даты голосования: с 09.09.2022 по 11.09.2022 \n \n 📍Адрес: улица Ландышевая, дом 8 \n (ГБОУ Школа №1985) \n \n ⏱Часы работы: с 10-00 до 20-00. \n \n 🗂Возьмите с собой документ удостоверяющий личность - паспорт гражданина РФ.';
